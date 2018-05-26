@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>* {padding: 0; margin: 0}</style>
+  </head>
+  <script src="pixi.min.js"></script>
+  <body>
+    <script type="text/javascript">
+DEBUG = false;
+
+function log(text){
+    if(DEBUG){
+        console.log("DEBUG : " + text);
+    }
+}
+
+// Declare app and render settings.
+let app = new PIXI.Application({
+    width: 256,         // default: 800
+    height: 256,        // default: 600
+    antialias: true,    // default: false
+    transparent: false, // default: false
+    resolution: 1       // default: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
+
+// Load in sprites and images to texture cache.
+PIXI.loader.add("bunny.png").load(setup);
+
+// Declare sprite as global so it shows up in gameLoop
+let sprite;
+
+// Gets called when all images are loaded. Setup before game loop.
+function setup() {
+
+  sprite = new PIXI.Sprite(
+    PIXI.loader.resources["bunny.png"].texture
+  );
+  app.stage.addChild(sprite);
+  log("Setup Complete!")
+
+  sprite.x = 120;
+  sprite.y = 120;
+  sprite.anchor.y = sprite.anchor.x = 0.5;
+
+
+  //Start the loop
+  gameLoop();
+}
+
+function gameLoop() {
+
+  //Call this `gameLoop` function on the next screen refresh
+  //(which happens 60 times per second)
+  requestAnimationFrame(gameLoop);
+
+  //Move the cat
+  sprite.rotation += 0.1;
+}
+
+
+    </script>
+  </body>
+</html>
